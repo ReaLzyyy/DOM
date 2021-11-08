@@ -46,17 +46,16 @@ document.querySelectorAll("ul").forEach((element) => {
 // 8.Suskaičiuoti kiek yra naujų gyvūnų (su klase new);
 console.log("New animals:", document.querySelectorAll(".new").length);
 // 9.Suskaičiuoti atskirai kiek yra naujų gyvūnų kiekvienoje kategorijoje;
-console.log("New girafees", document.querySelectorAll("#zirafos .new").length);
+console.log("New giraffes:", document.querySelectorAll("#zirafos .new").length);
 console.log(
-    "New predators",
+    "New predators:",
     document.querySelectorAll("#plesrunai .new").length
 );
-console.log("New snakes", document.querySelectorAll("#gyvates .new").length);
+console.log("New snakes:", document.querySelectorAll("#gyvates .new").length);
 console.log(
-    "New herbivores",
+    "New herbivores:",
     document.querySelectorAll("#zoliaedziai  .new").length
 );
-
 // c.Elementų events
 // 1.Padaryti tai ką liepia mygtukai Header1 sekcijoje;
 document
@@ -119,18 +118,79 @@ document
 
 // d.Elementų grupių events
 // 1.Padaryti, kad du kartus paspaudus ant naujų gyvūnų jie nusispalvintu raudonai https://developer.mozilla.org/en-US/docs/Web/API/Element/dblclick_event
+document.querySelectorAll(".new").forEach((element) => {
+    element.addEventListener("dblclick", () => {
+        element.style.color = "red";
+    });
+});
 
 // 2.Padaryti, kad paspaudus ant gyvūno jis būtų atvaizduojamas 130% didesniu fonto dydžiu. “PATINKA” tas neturi galioti.
+document
+    .querySelectorAll(".animals > ul > li:not(.like-button)")
+    .forEach((element) =>
+        element.addEventListener("click", (e) => {
+            e.target.style.fontSize = "130%";
+        })
+    );
 
 // 3.Padaryti, kad paspaudus ant “PATINKA”, atitinkamai sekcijai būtų priskirta klasė like;
+document.querySelectorAll(".animals > ul").forEach((element) => {
+    element.addEventListener("click", () => {
+        element.classList.add("like");
+    });
+});
 
 // f.Dinaminis elementų kūrimas (su createElement);
-
 // 1.Dinamiškai su JS pridėti naują kainą “Senjorai tik: 1.99 eur”;
-
+let newPriceHeader = document.createElement("h2");
+let newPrice = document.querySelector(".prices");
+newPriceHeader.appendChild("Senjorai tik: 1.99 eur");
+document.querySelector(".prices").appendChild(newPriceHeader);
 // 2.Dinamiškai su JS Pridėti naują kainą “Senjorų grupė iki 10: tik 5.99 eur” Padaryti, kad pridėtas elementas turėtų klasę new ir ant jo paklikinus jis pasidarytų žalias;
-
+let newPriceHeader1 = document.createElement("h2");
+newPriceHeader1.appendChild(
+    document.createTextNode("Senjorų grupė iki 10: tik 5.99 eur")
+);
+newPrice.appendChild(newPriceHeader1);
+newPriceHeader1.classList.add("new");
+newPriceHeader1.addEventListener(
+    "click",
+    (element) => (element.target.style.color = "green")
+);
 // 3.Dinamiškai su JS kiekvienoje gyvūnų kategorijoje po “PATINKA” pridėkite dar vieną li elementą “NEPATINKA”, kurį paspaudus atitinkamoje sekcijoje būtų nuimta klasė like;
-
+document.querySelectorAll(".animals > ul").forEach((element) => {
+    const likeButton = element.querySelector(".like-button");
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode("NEPATINKA"));
+    li.addEventListener("click", (element) => {
+        element.classList.remove("like");
+        likeButton.after(li);
+    });
+});
 // 4.Dinamiškai su JS sukurkite naują mygtukų grupę HEADER 3 naudojant analogišką html tagų struktūrą kaip ir HEADER 1 ir HEADER 2.
 //Pirmas mygtukas vadintųsi, “Pabraukti H1 tagą”, o antras “Nepabraukti H1 tagą”. Mygtukai turi daryti tai kas ant jų parašyta
+let fieldset = document.createElement("fieldset");
+
+let legend = document.createElement("legend");
+legend.appendChild("HEADER 3");
+
+let button = document.createElement("button");
+button.appendChild("Pabraukti H1 tagą");
+
+let button1 = document.createElement("button");
+button1.appendChild("Nepabraukti H1 tagą");
+
+fieldset.appendChild(button);
+fieldset.appendChild(button1);
+fieldset.appendChild(legend);
+document.getElementById("contacts").before(fieldset);
+
+button.addEventListener("click", () => {
+    document.querySelector("h1").style.textDecoration = "underline";
+});
+
+button1.addEventListener("click", () => {
+    document.querySelector("h1").style.textDecoration = "none";
+});
+
+//done :PPP
